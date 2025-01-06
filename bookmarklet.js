@@ -28,7 +28,7 @@ javascript:(function() {
     
     // Copy to clipboard
     navigator.clipboard.writeText(spreadsheetData)
-        .then(() => console.log('✓ Data copied to clipboard! Ready to paste into spreadsheet'))
+        .then(() => console.log('✅ Data copied to clipboard! Ready to paste into spreadsheet'))
         .catch(err => console.error('Failed to copy to clipboard:', err));
     
     // Log as table in console
