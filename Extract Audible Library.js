@@ -6,7 +6,7 @@ javascript:(function() {
         products.forEach(product => {
             const titleElement = product.querySelector('.bc-size-headline3');
             const title = titleElement ? titleElement.textContent.trim() : '';
-            const link = titleElement?.href || '';
+            const link = titleElement?.closest('a')?.href || '';
             const authorElement = product.querySelector('.authorLabel a');
             const author = authorElement ? authorElement.textContent.trim() : '';
             
