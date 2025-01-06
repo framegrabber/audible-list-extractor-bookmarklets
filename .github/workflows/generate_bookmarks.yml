@@ -30,7 +30,7 @@ jobs:
         ./create_bookmarklet.sh -o ./output ./*.js
 
     - name: Generate importable HTML
-      run: node ./export_bookmarks -o ./output/bookmarks.html ./output/*
+      run: node ./export_bookmarks -f "Audible List Tools" -o ./output/bookmarks.html ./output/*
         
 
     - name: Upload artifacts
