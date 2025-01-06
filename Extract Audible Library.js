@@ -4,7 +4,7 @@ javascript:(function() {
         const products = document.querySelectorAll('.adbl-library-content-row');
         
         products.forEach(product => {
-            const titleElement = product.querySelector('.bc-heading a');
+            const titleElement = product.querySelector('.bc-size-headline3');
             const title = titleElement ? titleElement.textContent.trim() : '';
             const link = titleElement?.href || '';
             const authorElement = product.querySelector('.authorLabel a');
