@@ -2,13 +2,10 @@ name: Generate Bookmarks
 
 on:
   push:
-    branches:
-      - master
 
 jobs:
   generate-bookmarks:
     runs-on: ubuntu-latest
-    
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -31,10 +28,39 @@ jobs:
 
     - name: Generate importable HTML
       run: node ./export_bookmarks -f "Audible List Tools" -o ./output/bookmarks.html ./output/*
-        
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: bookmarks
         path: output/bookmarks.html
+
+  create-release:
+    needs: generate-bookmarks
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: bookmarks
+        path: output
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        generate_release_notes: true
+        body: |
+          ## 🔖 New Release
+
+          This release includes the latest version of the Audible List Tools bookmarklets.
+          
+          ### 📦 Assets
+          - `bookmarks.html` - Import this file into your browser's bookmarks
+
+          ---
+          ## 🔄 Automated Release Notes
+        append_body: true
+        files: ./output/bookmarks.html
