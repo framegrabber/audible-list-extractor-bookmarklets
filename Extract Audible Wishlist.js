@@ -21,17 +21,22 @@ javascript:(function() {
     console.log('Extracting items from current page...');
     const items = extractItems();
     
-    // Create spreadsheet-friendly output
-    const header = 'Title\tAuthor\tLink';
-    const rows = items.map(item => `${item.title}\t${item.author}\t${item.link}`);
-    const spreadsheetData = [header, ...rows].join('\n');
+    if (items.length > 0) {
+        // Create spreadsheet-friendly output
+        const header = 'Title\tAuthor\tLink';
+        const rows = items.map(item => `${item.title}\t${item.author}\t${item.link}`);
+        const spreadsheetData = [header, ...rows].join('\n');
+        
+        // Copy to clipboard
+        navigator.clipboard.writeText(spreadsheetData)
+            .then(() => console.log('✅ Data copied to clipboard! Ready to paste into spreadsheet'))
+            .catch(err => console.error('❌ Failed to copy to clipboard:', err));
+        
+        // Log as table in console
+        console.table(items);
+    } else {
+        console.log('❌ No items found on this page');
+    }
     
-    // Copy to clipboard
-    navigator.clipboard.writeText(spreadsheetData)
-        .then(() => console.log('✅ Data copied to clipboard! Ready to paste into spreadsheet'))
-        .catch(err => console.error('Failed to copy to clipboard:', err));
-    
-    // Log as table in console
-    console.table(items);
     console.log(`Total items found: ${items.length}`);
 })(); 
