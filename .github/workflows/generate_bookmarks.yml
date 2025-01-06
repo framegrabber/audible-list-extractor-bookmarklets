@@ -3,7 +3,7 @@ name: Generate Bookmarks
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   generate-bookmarks:
