@@ -1,0 +1,40 @@
+name: Generate Bookmarks
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate-bookmarks:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: |
+        npm install
+        npm install -g uglify-js
+        sudo apt-get install jq
+
+    - name: Generate bookmarklets
+      run: |
+        mkdir -p output
+        ./create_bookmarklet.sh -o ./output ./*.js
+
+    - name: Generate importable HTML
+      run: node ./export_bookmarks -o ./output/bookmarks.html ./output/*
+        
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: bookmarks
+        path: output/bookmarks.html
